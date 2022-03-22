@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "start1": "tsc-watch --onSuccess \"node dist/ejercicio-1/index.js\"",
+    "start2": "tsc-watch --onSuccess \"node dist/ejercicio-2/index.js\"",
+    "start3": "tsc-watch --onSuccess \"node dist/ejercicio-3/index.js\"",
+    "startclase": "tsc-watch --onSuccess \"node dist/ejercicio-clase/index.js\"",
+    "doc": "typedoc",
+    "coverage": "nyc npm test",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "keywords": [],
   "author": "",
