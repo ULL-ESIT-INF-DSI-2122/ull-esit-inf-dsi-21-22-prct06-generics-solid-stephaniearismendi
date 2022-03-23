@@ -1,6 +1,9 @@
 {
-  "entryPoint": [
-    "src"
+  "entryPoints": [
+    "./src/ejercicio-clase/Interfaces.ts",
+    "./src/ejercicio-clase/NumericSearchableCollection.ts",
+    "./src/ejercicio-clase/SearchableCollection.ts",
+    "./src/ejercicio-clase/StringSearchableCollection.ts"
   ],
   "out": "./docs"
 }

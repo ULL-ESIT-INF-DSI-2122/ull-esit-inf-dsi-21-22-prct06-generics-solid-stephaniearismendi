@@ -10,7 +10,7 @@
     "start3": "tsc-watch --onSuccess \"node dist/ejercicio-3/index.js\"",
     "startclase": "tsc-watch --onSuccess \"node dist/ejercicio-clase/index.js\"",
     "doc": "typedoc",
-    "coverage": "nyc npm test",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls && rm -rf .nyc output",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "keywords": [],
