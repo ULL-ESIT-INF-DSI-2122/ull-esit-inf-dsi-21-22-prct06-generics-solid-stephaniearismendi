@@ -31,6 +31,7 @@
     "tsc-watch": "^4.6.2"
   },
   "dependencies": {
+    "scanf": "^1.1.2",
     "typedoc": "^0.22.13"
   }
 }

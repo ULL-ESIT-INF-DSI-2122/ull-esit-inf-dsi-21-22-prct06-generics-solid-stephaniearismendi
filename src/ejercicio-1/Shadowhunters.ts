@@ -24,7 +24,15 @@ export class Shadowhunters extends Fighter {
   }
   calcularPoder(): void {
     if (this.runa == 'fortis' || this.runa == 'dexteritas') {
-      this.setPoder(this.getAguante() * 2);
+      this.setPoder(this.getPoder() * 2);
     }
+  }
+  fraseAtacar(): string {
+    let texto:string = '';
+    const frasesAtacar:string[] = ['ha usado su cuchillo serafín.', 'ha golpeado en la cabeza a su rival.',
+      'ha dado una patada a su rival.', 'ha lanzado un cuchillo a su rival.', 'ha usado su daga.'];
+    const rand = ~~(Math.random()*frasesAtacar.length);
+    texto = this.getNombre() + ' ' + frasesAtacar[rand];
+    return texto;
   }
 }

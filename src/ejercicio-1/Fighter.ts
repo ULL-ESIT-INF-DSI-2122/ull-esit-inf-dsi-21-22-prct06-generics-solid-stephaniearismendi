@@ -26,6 +26,12 @@ export abstract class Fighter {
   public getAguante():number {
     return this.aguante;
   }
+  public getPeso():number {
+    return this.peso;
+  }
+  public getAltura():number {
+    return this.altura;
+  }
   public setAguante(aguante:number):void {
     this.aguante = aguante;
   }
@@ -35,4 +41,5 @@ export abstract class Fighter {
 
 abstract calcularPoder():void;
 abstract calcularAguante():void;
+abstract fraseAtacar():string;
 }

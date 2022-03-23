@@ -1,5 +1,5 @@
 import {Fighter} from './Fighter';
-type Ataques = [string, string]; // ataque y tipo
+export type Ataques = [string, string]; // ataque y tipo
 export class Pokemon extends Fighter {
   private type:string;
   private ataques:Ataques;
@@ -18,5 +18,10 @@ export class Pokemon extends Fighter {
     if (this.ataques[1] == this.type) {
       this.setPoder(this.getPoder() * 2);
     }
+  }
+  fraseAtacar(): string {
+    let texto:string = '';
+    texto = this.getNombre() + ' ha usado ' + this.ataques[0] + '.';
+    return texto;
   }
 }
