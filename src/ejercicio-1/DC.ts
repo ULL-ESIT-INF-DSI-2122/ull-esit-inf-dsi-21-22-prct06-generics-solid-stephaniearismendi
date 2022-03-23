@@ -12,15 +12,17 @@ export class DC extends Fighter {
     this.adrenalina = adrenalina;
     this.arma = arma;
   }
-  calcularAguante(): void {
+  calcularAguante(): number {
     if (this.adrenalina == true) {
       this.setAguante(this.getAguante() * 2);
     }
+    return this.getAguante();
   }
-  calcularPoder(): void {
+  calcularPoder(): number {
     if (this.metahumano) {
       this.setPoder(this.getPoder() * 2);
     }
+    return this.getPoder();
   }
   fraseAtacar(): string {
     let texto:string = '';

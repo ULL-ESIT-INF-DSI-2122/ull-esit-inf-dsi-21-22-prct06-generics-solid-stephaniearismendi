@@ -17,15 +17,17 @@ export class Shadowhunters extends Fighter {
       return ' ';
     }
   }
-  calcularAguante(): void {
+  calcularAguante(): number {
     if (this.runa == 'curacion' || this.runa == 'amissio') {
       this.setAguante(this.getAguante() * 2);
     }
+    return this.getAguante();
   }
-  calcularPoder(): void {
+  calcularPoder(): number {
     if (this.runa == 'fortis' || this.runa == 'dexteritas') {
       this.setPoder(this.getPoder() * 2);
     }
+    return this.getPoder();
   }
   fraseAtacar(): string {
     let texto:string = '';

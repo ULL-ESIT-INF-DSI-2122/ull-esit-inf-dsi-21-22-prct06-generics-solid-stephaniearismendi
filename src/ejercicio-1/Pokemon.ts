@@ -9,15 +9,17 @@ export class Pokemon extends Fighter {
     this.ataques = ataques;
     this.type = type;
   }
-  calcularAguante(): void {
+  calcularAguante(): number {
     if (this.getAguante() < 20) {
       this.setAguante(this.getAguante() * 2);
     }
+    return this.getAguante();
   }
-  calcularPoder(): void {
+  calcularPoder(): number {
     if (this.ataques[1] == this.type) {
       this.setPoder(this.getPoder() * 2);
     }
+    return this.getPoder();
   }
   fraseAtacar(): string {
     let texto:string = '';

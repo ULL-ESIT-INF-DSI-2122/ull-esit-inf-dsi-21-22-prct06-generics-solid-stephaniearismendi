@@ -39,7 +39,7 @@ export abstract class Fighter {
     this.poder = poder;
   }
 
-abstract calcularPoder():void;
-abstract calcularAguante():void;
+abstract calcularPoder():number;
+abstract calcularAguante():number;
 abstract fraseAtacar():string;
 }
