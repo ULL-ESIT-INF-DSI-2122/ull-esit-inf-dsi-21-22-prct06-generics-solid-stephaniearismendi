@@ -627,3 +627,181 @@ Método que, si la vida del jugador es menor a 50, implementa los diferentes com
 ```
 
 Contiene el funcionamiento general del combate. Se van alternando las distintas funciones que se repetirán mientras ambos oponentes tengan una vida superior a 0. La variable `iter` sirve para pasar por pantalla a las funciones que necesitan el atacante para diferenciar entre el Oponente1 o el Oponente2. Además, siempre que pase de 2 se reiniciará a 1, para que solo tenga en cuenta los escenarios posibles.
+
+### Ejercicio 2 - DSIflix.
+
+Se imaginará que hay que diseñar el modelo de datos de una plataforma de vídeo en streaming. A través del catálogo de dicha plataforma se puede acceder a películas, series y documentales.
+
+Para ello, primeramente, se implementarán las siguientes interfaces:
+
+```typescript
+
+interface Streamable<T>{
+    addItem(newItem: T):void;
+    getItem(index:number):T;
+    removeItem(index:number):void;
+    getNumberOfITems():number;
+}
+
+```
+Que declarará los métodos de la manipulación de Items.
+
+```typescript
+interface StreamSearch<T>{
+    searchByName(terminoBusqueda: string):T[] | undefined;
+    searchByYear(terminoBusqueda: number):T[] | undefined;
+    searchByDescriptor(terminoBusqueda:string):T[] | undefined;
+}
+```
+Que declarará los métodos de búsqueda de los Items.
+
+Estas dos interfaces serán implementadas por la clase abstracta ``BasicStreamableCollection`:
+
+```typescript
+
+abstract class BasicStreamableCollection<T> implements Streamable<T>, StreamSearch<T> {
+  constructor(protected items:T[]) {
+
+  }
+  /**
+   * Método que añade un nuevo Item a la Colección
+   * @param newItem
+   */
+  addItem(newItem: T): void {
+    this.items.push(newItem);
+  }
+  /**
+   * Método que devuelve el Item de la Colección en un
+   * índice concreto
+   * @param index
+   * @returns T
+   */
+  getItem(index: number): T {
+    return this.items[index];
+  }
+  /**
+   * Método que elimina el Item de la Colección en un
+   * índice concreto
+   * @param index
+   */
+  removeItem(index: number): void {
+    this.items.splice(index, 1);
+  }
+  /**
+   * Función que devuelve el número de elementos en la
+   * colección
+   * @returns number
+   */
+  getNumberOfITems(): number {
+    let contador:number = 0;
+    for (let i = 1; i <= this.items.length; i++) {
+      contador = i;
+    }
+    return contador;
+  }
+  /**
+   * Métodos abstractos
+   */
+  abstract searchByDescriptor(terminoBusqueda: string): T[] | undefined;
+  abstract searchByName(terminoBusqueda: string): T[] | undefined;
+  abstract searchByYear(terminoBusqueda: number): T[] | undefined;
+}
+
+```
+
+Esta recibirá un array de items genéricos como constructor, e implementará las definiciones del manejo de Items. Las de búsqueda, en cambio, serán métodos abstractos, que serán definidos en cada clase.
+
+- Documentales
+
+Para documentales se declarará la interfaz: 
+
+```typescript
+
+type documentalDatos = {
+    year:number;
+    descriptor:string;
+    titulo:string;
+    cadena:string;
+}
+
+```
+
+Entonces, la clase Documental sería la siguiente, usando como tipo `documentalDatos`:
+
+```typescript
+
+class Documentales extends BasicStreamableCollection<documentalDatos> {
+  constructor(protected items:documentalDatos[]) {
+    super(items);
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un descriptor
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByDescriptor(terminoBusqueda: string): documentalDatos[] | undefined {
+    let arrayFinal:documentalDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.descriptor == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un nombre
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByName(terminoBusqueda: string): documentalDatos[] | undefined {
+    let arrayFinal:documentalDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.titulo == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un año
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByYear(terminoBusqueda: number): documentalDatos[] | undefined {
+    let arrayFinal:documentalDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.year == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que sean de
+   * una cadena en concreto
+   * @param terminoBusqueda
+   * @returns array
+   */
+  public searchByCadena(terminoBusqueda:string): documentalDatos[] | undefined {
+    let arrayFinal:documentalDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.cadena == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+}
+
+```
