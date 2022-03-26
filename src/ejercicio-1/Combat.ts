@@ -1,5 +1,9 @@
 import {Fighter} from './Fighter';
 
+/**
+ * Clase combat en la que desarrolla el combate y los
+ * diferentes métodos que servirán en el mismo
+ */
 export class Combat {
   private Oponente1:Fighter;
   private Oponente2:Fighter;
@@ -48,15 +52,11 @@ export class Combat {
 	 * al oponente2
 	 * @returns 1 si el daño es causado por oponente1, 2 si es causado por oponente2, 0 en otro caso
 	 */
-  public damageGenerado(oponenteDamaged:Number):number {
+  public damageGenerado(oponenteDamaged:Number):void {
     if (oponenteDamaged == 1) {
-      this.Oponente2.setAguante(this.Oponente2.getAguante() - this.eficacia(1));
-      return 1;
+      this.Oponente2.setVida(this.Oponente2.getVida() - this.eficacia(1));
     } else if (oponenteDamaged == 2) {
-      this.Oponente1.setAguante(this.Oponente1.getAguante() - this.eficacia(2));
-      return 2;
-    } else {
-      return 3;
+      this.Oponente1.setVida(this.Oponente1.getVida() - this.eficacia(2));
     }
   }
   /**
@@ -66,7 +66,7 @@ export class Combat {
    */
   public comprobarRendicion(Oponente:Fighter):string {
     let texto:string = ' ';
-    if (Oponente.getAguante() <= 0) {
+    if (Oponente.getVida() <= 0) {
       texto = Oponente.getNombre() + ' se ha rendido.';
     }
     return texto;
@@ -81,7 +81,7 @@ export class Combat {
     let bonusoponente1:boolean = true;
     let bonusoponente2:boolean = true;
     console.log('La batalla está a punto de empezar.');
-    while ((this.Oponente1.getAguante()) > 0 && (this.Oponente2.getAguante()) > 0) {
+    while ((this.Oponente1.getVida()) > 0 && (this.Oponente2.getVida()) > 0) {
       if (iter > 2) {
         iter = 1;
       }
@@ -92,7 +92,7 @@ export class Combat {
         } else {
           console.log(this.getAguanteRestante(this.Oponente2));
           if (bonusoponente2 == true) {
-            if (this.enApuros(this.Oponente2, this.Oponente1)) {
+            if (this.enApuros(this.Oponente2)) {
               bonusoponente2 = false;
             }
           }
@@ -104,7 +104,7 @@ export class Combat {
         } else {
           console.log(this.getAguanteRestante(this.Oponente1));
           if (bonusoponente1 == true) {
-            if (this.enApuros(this.Oponente1, this.Oponente2)) {
+            if (this.enApuros(this.Oponente1)) {
               bonusoponente1 = false;
             }
           }
@@ -129,20 +129,19 @@ export class Combat {
    * @returns texto
    */
   public getAguanteRestante(Oponente:Fighter):string {
-    const texto = 'A ' + Oponente.getNombre() + ' le queda ' + Oponente.getAguante() + ' de aguante.';
+    const texto = 'A ' + Oponente.getNombre() + ' le queda ' + Oponente.getVida() + ' de vida.';
     return texto;
   }
   /**
    * Bonus por universo que solo se podrá usar en casos de apuros.
    * @param Oponente1aux auxuliar combatiente 1
-   * @param Oponente2aux auxiliar combatiente 2
    * @returns boolean true if used
    */
-  public enApuros(Oponente1aux:Fighter, Oponente2aux:Fighter):boolean {
+  public enApuros(Oponente:Fighter):boolean {
     let used:boolean = false;
-    if (Oponente1aux.getAguante() < 50) {
-      Oponente1aux.calcularAguante();
-      Oponente2aux.calcularPoder();
+    if (Oponente.getVida() < 50) {
+      Oponente.calcularAguante();
+      Oponente.calcularPoder();
       used = true;
     }
     return used;

@@ -1,5 +1,8 @@
 import {Fighter} from './Fighter';
 
+/**
+ * Clase donde se almacenarán todos los personajes de los distintos universos
+ */
 export class BaseDeDatos {
   private baseDeDatos:Fighter[] = [];
   constructor(baseDeDatos:Fighter[]) {
@@ -22,6 +25,11 @@ export class BaseDeDatos {
   public mostrarBaseDeDatos():void {
     console.table(this.baseDeDatos);
   }
+  /**
+   * Método para obtener los datos del personaje en un índice
+   * @param index
+   * @returns
+   */
   public getPersonaje(index:number):Fighter {
     return this.baseDeDatos[index];
   }

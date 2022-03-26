@@ -8,11 +8,11 @@ const scanf = require('scanf');
 
 
 const Pikachu = new Pokemon('electrico', ['impactrueno', 'electrico'],
-    70, 'Pikachu', 0.4, 6, '¡Pika, pika!', 40);
+    70, 'Pikachu', 0.4, 6, '¡Pika, pika!', 40, 70);
 const Jace = new Shadowhunters(50, 'Jace Herondale', 1.80, 82,
-    '¿Quieres llevar esto afuera y probar esas habilidades de lucha?', 80, 'fortis');
-const BlackWidow = new Marvel('Black Widow', 60, 1.70, 59.42, 'No necesito un arma. Yo soy un arma.', 70, false, true);
-const HarleyQuinn = new DC(50, 'Harley Quinn', 1.68, 63.5, 'La muerte es un estado mental, cariño.', 70, false, true, 'bate');
+    '¿Quieres llevar esto afuera y probar esas habilidades de lucha?', 80, 70, 'fortis');
+const BlackWidow = new Marvel('Black Widow', 60, 1.70, 59.42, 'No necesito un arma. Yo soy un arma.', 70, 60, false, true);
+const HarleyQuinn = new DC(50, 'Harley Quinn', 1.68, 63.5, 'La muerte es un estado mental, cariño.', 70, 80, false, true, 'bate');
 const baseDeDatos = new BaseDeDatos([Pikachu, Jace, BlackWidow]);
 baseDeDatos.insertarParticipante(HarleyQuinn);
 console.log('Bienvenido a la pelea multiversal.');
