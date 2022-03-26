@@ -1057,3 +1057,271 @@ Al constructor se le pasa como parámetro un array items del tipo `seriesDatos`.
 3. searchByYear : Método que devuelve los datos de todas las series que coincidan con un año en concreto como estreno.
 4. searchByTemporadas : Método que devuelve los datos de todas las series que coincidan con un número de temporadas en concreto.
 5. searchByDirector : Método que devuelve los datos de todas ls series qeu coincidan con un director. 
+
+### Ejercicio 3 - El cifrado indescifrable
+
+En el [Cifrado César](https://es.wikipedia.org/wiki/Cifrado_C%C3%A9sar), cada letra de un alfabeto se desplaza cierto número de posiciones. Por ejemplo, suponiendo el alfabeto ``ABCDEFGHIJKLMNÑOPQRSTUVWXYZ``, si fijamos un Cifrado César con desplazamiento d = 5, entonces, la letra A pasaría a ser la letra F, la letra B pasaría a ser la letra G, la letra Z pasaría a ser la letra E, y así sucesivamente.
+
+Existe otro tipo de cifrados donde un texto de entrada se encripta utilizando un conjunto de Cifrados César con desplazamientos variables basados en las letras de una palabra clave. El desplazamiento se obtiene aplicando Cifrado César a una letra del mensaje utilizando como desplazamiento la posición de la letra correspondiente de la clave dentro del alfabeto. Por ejemplo, suponiendo el mismo alfabeto anterior y la palabra clave ``CLAVE``:
+
+> "HOLAESTOESUNAPRUEBA"    
+"CLAVECLAVECLAVECLAV"
+
+Para simular esta encriptación implementaremos la clase `Cifrado`. Esta tendrá como atributos `alphabet`, un array de strings que contendrá el alfabeto y será opcional en el constructor. También estarán `texto` y `clave`, dos strings. Si el alfebeto no es declarado por medio del constructor, se utiliza el alfabeto por defecto.
+
+```typescript
+
+class Cifrado {
+  private alphabet:string[] = [];
+  private clave:string;
+  private texto:string;
+  constructor(texto:string, clave:string, alphabet?:string[]) {
+    this.texto = texto;
+    this.clave = clave;
+    this.alphabet = alphabet || [...'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'];
+  }
+
+```
+
+A continuación, tenemos los diferentes métodos: 
+
+- splitEnArray
+
+```typescript
+
+  public splitEnarray(cadena:string):string[] {
+    const array:string[] = Array.from(cadena);
+    return array;
+  }
+
+```
+
+Este método toma un stribng y lo transforma en un array.
+
+- checkDisplacement
+
+```typescript
+
+  public checkDisplacement(caracter:string):number {
+    const resultado:number = this.alphabet.indexOf(caracter) + 1;
+    return resultado;
+  }
+
+```
+
+Este método devuelve el desplazamiento numérico de un caracter respecto al alfabeto declarado.
+
+- checkLongClave
+
+```typescript
+
+  public checkLongClave():void {
+    const claveArray:string[] = this.splitEnarray(this.clave);
+    const lenghtClave:number = this.clave.length;
+    let aux:number = 0;
+    if (lenghtClave < this.texto.length) {
+      for (let i:number = 0; i < this.texto.length - lenghtClave; i++) {
+        this.clave = this.clave.concat(claveArray[aux]);
+        aux++;
+        if (aux >= lenghtClave) {
+          aux = 0;
+        }
+      }
+    }
+  }
+
+```
+
+Método que comprueba si la longitud de la clave es inferior a la del texto. En ese caso, se repetirá tantas veces como sea necesario para que las longitudes sean iguales.
+
+
+- displacementCharacter
+
+```typescript
+
+ public displacementCharacter(caracter:string, displacement:number):string {
+    const indiceOriginal:number = this.alphabet.indexOf(caracter);
+    let indexDesplazado:number = indiceOriginal + displacement;
+    let desplazado:string = '';
+    if (indexDesplazado >= this.alphabet.length) {
+      indexDesplazado = indexDesplazado - this.alphabet.length;
+      desplazado = this.alphabet[indexDesplazado];
+    } else {
+      desplazado = this.alphabet[indiceOriginal + displacement];
+    }
+    return desplazado;
+  }
+
+```
+
+Método que desplaza un caracter pasado como parametro según el desplazamiento, también como parámetro. Comprueba si el indice original más el desplazamiento introducido se pasan del tamaño del alfabeto y, de ser así, el indice desplazado será el número menos el tamaño del alfabeto.
+
+- displacementString
+
+```typescript
+
+  public displacementString():string {
+    let stringFinal:string = '';
+    this.checkLongClave();
+    for (let i = 0; i < this.texto.length; i++) {
+      const displacement = this.checkDisplacement(this.clave[i]);
+      stringFinal += this.displacementCharacter(this.texto[i], displacement);
+    }
+    return stringFinal;
+  }
+
+```
+
+Método final, que devuelve el string de texto completamente desplazado haciendo uso de las funciones anteriores.
+
+Finalmente, se han llevado a cabo una serie de pruebas, que pueden encontrarse [aquí](https://github.com/ULL-ESIT-INF-DSI-2122/ull-esit-inf-dsi-21-22-prct06-generics-solid-stephaniearismendi/tree/main/test).
+
+La salida por pantalla es la siguiente:
+
+```terminal
+
+
+
+  Combat Tests: 
+    ✔ decirFrase => ["No necesito un arma. Yo soy un arma", "La muerte es un estado mental, cariño"]
+A continuación se mostrarán las características de ambos adversarios.
+┌─────────┬────────────────┬───────┬────────┬───────┬──────────────────────────────────────────┬─────────┬──────┬─────────┬──────────────┬───────────┬────────────┬────────────┐
+│ (index) │     nombre     │ poder │ altura │ peso  │                  frase                   │ aguante │ vida │ mutante │ supersoldado │   arma    │ metahumano │ adrenalina │
+├─────────┼────────────────┼───────┼────────┼───────┼──────────────────────────────────────────┼─────────┼──────┼─────────┼──────────────┼───────────┼────────────┼────────────┤
+│    0    │ 'Black Widow'  │  60   │  1.7   │ 59.42 │  'No necesito un arma. Yo soy un arma.'  │   70    │  60  │  false  │     true     │ 'pistola' │            │            │
+│    1    │ 'Harley Quinn' │  50   │  1.68  │ 63.5  │ 'La muerte es un estado mental, cariño.' │   70    │  80  │         │              │  'bate'   │   false    │    true    │
+└─────────┴────────────────┴───────┴────────┴───────┴──────────────────────────────────────────┴─────────┴──────┴─────────┴──────────────┴───────────┴────────────┴────────────┘
+┌─────────┬────────────────┬───────┬────────┬───────┬──────────────────────────────────────────┬─────────┬──────┬─────────┬──────────────┬───────────┬────────────┬────────────┐
+│ (index) │     nombre     │ poder │ altura │ peso  │                  frase                   │ aguante │ vida │ mutante │ supersoldado │   arma    │ metahumano │ adrenalina │
+├─────────┼────────────────┼───────┼────────┼───────┼──────────────────────────────────────────┼─────────┼──────┼─────────┼──────────────┼───────────┼────────────┼────────────┤
+│    0    │ 'Black Widow'  │  60   │  1.7   │ 59.42 │  'No necesito un arma. Yo soy un arma.'  │   70    │  60  │  false  │     true     │ 'pistola' │            │            │
+│    1    │ 'Harley Quinn' │  50   │  1.68  │ 63.5  │ 'La muerte es un estado mental, cariño.' │   70    │  80  │         │              │  'bate'   │   false    │    true    │
+└─────────┴────────────────┴───────┴────────┴───────┴──────────────────────────────────────────┴─────────┴──────┴─────────┴──────────────┴───────────┴────────────┴────────────┘
+    ✔ mostrarAtributos must return a table
+    ✔ eficacia black widow -> harley quinn => 18
+    ✔ eficacia harley quinn -> black widow => 15
+    ✔ eficacia con un numero que no sea 1 o 2 => 0
+    ✔ damageGenerado black widow -> harley quinn => not returns error
+    ✔ damageGenerado harley quinn -> black widow => not returns error
+    ✔ getAguanteRestante => "A Black Widow le queda 45 de vida."
+    ✔ getAguanteRestante => "A Harley Quinn le queda 62 de vida."
+    ✔ enApuros used by Black Widow => true
+    ✔ enApuros used by a full hp player => false
+    ✔ battle => not throw an error
+    ✔ start => not throw an error
+    ✔ comprobarRendicion(Scarlet Witch) => Scarlet Witch se ha rendido
+    ✔ comprobarRendicion(Jace) => " "
+
+  DC Tests: 
+    ✔ CalcularPoder. 50 => 50. No es metahumano, no cambia
+    ✔ CalcularPoder. 80 => 160. Es metahumano, x2
+    ✔ CalcularAguante. 70 => 140. Bonus adrenalina, x2
+    ✔ CalcularAguante. 60 => 60. No tiene bonus adrenalina
+    ✔ fraseAtacar => "Harley Quinn ha golpeado a su rival con su bate.
+    ✔ fraseAtacar sin arma => debe retornar algo
+
+  Fighter Tests: 
+    ✔ getPoder => 60
+    ✔ setPoder(20) => not throw error
+    ✔ getPoder => 20
+    ✔ getNombre => "Black Widow"
+    ✔ getFrase => "No necesito un arma. Yo soy un arma."
+    ✔ getAguante => 70
+    ✔ setAguante(40) => not throw error
+    ✔ getAguante => 40
+    ✔ getPeso => 59.42
+    ✔ getAltura => 1.70
+    ✔ getVida => 60
+    ✔ setVida(20) => not throw error
+    ✔ getVida => 20
+
+  Marvel Tests: 
+    ✔ CalcularPoder Marvel. 60 => 60 si no es mutante
+    ✔ CalcularPoder Marvel. 90 => 180 si es mutante
+    ✔ CalcularAguante Marvel. 70 => 140 si no es mutante
+    ✔ CalcularAguante Marvel. 70 => 70 si es mutante
+    ✔ Frase atacar marvel. Si no lleva arma es aleatoria, no puede ser undefined
+    ✔ Frase atacar marvel. Si lleva arma -> "Black Widow ha golpeado a su rival con su pistola"
+
+  Pokémon tests: 
+    ✔ CalcularAguante with health > 20 to be 40
+    ✔ CalcularAguante with health < 20 to be 80
+    ✔ CalculadorPoder with attack its type to be 140
+    ✔ CalculadorPoder with attack not its type to be 70
+    ✔ fraseAtacar to be "Pikachu ha usado impactrueno"
+
+  Shadowhunters tests: 
+    ✔ GetRuna => fortis
+    ✔ GetRuna => undefined
+    ✔ setRuna => not thrown an error
+    ✔ CalcularPoder without fortis or dexteritas=> 60 (not changed)
+    ✔ CalcularPoder with fortis or dexteritas=> 100 (x2)
+    ✔ CalcularAguante without curacion or amissio=> 80 (not changed)
+    ✔ CalcularPoder with curacion or amissio=> 140 (x2)
+    ✔ fraseAtacar => Jace ha usado . . . must throw
+
+  Documentales tests: 
+    ✔ searchByDescriptor("Ciencia y Naturaleza") to be undefined
+    ✔ searchByDescriptor("Biografías") must return Ruiz-Mateos: el primer fenómeno viral
+    ✔ searchByName("Ovnis: Proyectos de Alto Secreto desclasificado") to be undefined
+    ✔ searchByName("Ruiz-Mateos: el primer fenómeno viral") must return Ruiz-Mateos: el primer fenómeno viral
+    ✔ searchByYear(2007) to be undefined
+    ✔ searchByYear(2021) must return Ruiz-Mateos: el primer fenómeno viral and El ejército de hackers de China
+    ✔ searchByCadena(Netflix) to be undefined
+    ✔ searchByCadena("RTVE") must return Ruiz-Mateos: el primer fenómeno viral and El ejército de hackers de China
+
+  Peliculas tests: 
+    ✔ searchByDescriptor("Accion") must return Capitán América The Winter Soldier
+    ✔ searchByYear(2020) must return Tick, Tick... Boom!
+    ✔ searchByDirector("Lin-Manuel Miranda") must return Tick, Tick... Boom!
+    ✔ searchByName("Capitan América: El soldado de Invierno") must return movie data
+    ✔ searchByName("Star Wars") to be undefined
+    ✔ searchByActores(["Andrew Garfield"]) to return Tick, Tick, Boom!
+    ✔ searchByDescriptor("Humor") to be undefined
+    ✔ searchByYear(210) to be undefined
+    ✔ searchByDirector("Steven Spielberg") to be undefined
+    ✔ searchByActores(["Sandra Bullock", "Jennifer Lawrence"]) to be undefined
+
+  series tests: 
+    ✔ searchByDescriptor("Drama") must return Teen Wolf and The Vampire Diaries
+    ✔ searchByDescriptor("Humor") must return undefined
+    ✔ searchByName("Teen Wolf") must return Teen Wolf data
+    ✔ searchByName("Aqui no hay quien viva") must return undefined
+    ✔ searchByYear(2011) must return Teen Wolf data
+    ✔ searchByYear(2005) must return undefined
+    ✔ searchByTemporadas(6) must return Teen Wolf data
+    ✔ searchByTemporadas(2) must return undefined
+    ✔ searchByDirector("Julie Plec") must return The Vampire Diaries
+    ✔ searchByDirector("Andy Muschietti") must return undefined
+
+  Basic Streamable Collection tests: 
+    ✔ getItem to return items in index one
+    ✔ getNumberOfITems to return 2
+    ✔ addItem to not thrown an error
+    ✔ getNumberOfITems to return 3
+    ✔ removeItem to not thrown an error
+    ✔ getNumberOfITems to return 2
+
+  Cifrado tests: 
+    ✔ splitEnarray("hola") debe separar los caracteres en un array
+    ✔ checkDisplacement("C") => 3
+    ✔ displacementCharacter("O", 12) => A
+    ✔ checkLongClave => not throw
+    ✔ checkLongClave => not throw
+    ✔ checkLongClave => exist
+    ✔ checkLongClave => be a function
+    ✔ displacementString => KAMWJVFPAXXYBMWXPCW
+
+  Ejercicio clase tests: 
+    ✔ GetItem(1) debe retornar dos, que es la posición 1 del array de números [1,2,3]
+    ✔ GetString(1) debe retornar "adios", que es la posición 1 del array de strings [hola,adios,a]
+    ✔ getNumberItems en numbers = > 2
+    ✔ getNumberItems en string = > 3
+    ✔ search en numeros => [2]
+    ✔ search "casa" en string => undefined
+    ✔ search "a" en string => [a]
+
+
+  102 passing (86ms)
+
+```
