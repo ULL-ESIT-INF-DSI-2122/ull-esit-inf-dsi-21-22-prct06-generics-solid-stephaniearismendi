@@ -1325,3 +1325,34 @@ A continuación se mostrarán las características de ambos adversarios.
   102 passing (86ms)
 
 ```
+
+Además, se ha hecho uso de Coveralls para comprobar la completitud de las mismas, siendo este el resultado:
+
+```terminal
+
+File                             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------------------|---------|----------|---------|---------|-------------------
+All files                        |   91.02 |    77.88 |   95.55 |   90.79 |                   
+ ejercicio-1                     |   82.31 |    63.79 |   94.87 |   82.31 |                   
+  Combat.ts                      |   55.17 |    34.37 |      80 |   55.17 | 80-124            
+  DC.ts                          |     100 |      100 |     100 |     100 |                   
+  Fighter.ts                     |     100 |      100 |     100 |     100 |                   
+  Marvel.ts                      |     100 |      100 |     100 |     100 |                   
+  Pokemon.ts                     |     100 |      100 |     100 |     100 |                   
+  Shadowhunters.ts               |     100 |      100 |     100 |     100 |                   
+ ejercicio-2                     |     100 |      100 |     100 |     100 |                   
+  BasicStreamableCollection.ts   |     100 |      100 |     100 |     100 |                   
+  Documentales.ts                |     100 |      100 |     100 |     100 |                   
+  Peliculas.ts                   |     100 |      100 |     100 |     100 |                   
+  Series.ts                      |     100 |      100 |     100 |     100 |                   
+ ejercicio-3                     |     100 |     87.5 |     100 |     100 |                   
+  Cifrado.ts                     |     100 |     87.5 |     100 |     100 | 41                
+ ejercicio-clase                 |   90.62 |     87.5 |   77.77 |   89.65 |                   
+  NumericSearchableCollection.ts |    90.9 |       75 |     100 |      90 | 20                
+  SearchableCollection.ts        |      80 |      100 |      60 |   77.77 | 12,27             
+  StringSearchableCollection.ts  |     100 |      100 |     100 |     100 |                   
+---------------------------------|---------|----------|---------|---------|-------------------
+
+```
+
+Los resultados más bajos están en la clase `Combat`, dentro del ejercicio uno. Estas líneas se encuentran en el método start, donde se dificulta la realización de pruebas; de resto, todas muestran un porcentaje correcto.
