@@ -805,3 +805,255 @@ class Documentales extends BasicStreamableCollection<documentalDatos> {
 }
 
 ```
+
+Al constructor se le pasa como parámetro un array items del tipo `documentalDatos`. Seguidamente, método a método:
+
+1. searchByDescriptor : devuelve los datos de todos los documentales que coincidan con un descriptor en concreto.
+2. searchByName : devuelve los datos de todos los elementos del array de documentales que coincidan con un nombre (título).
+3. searchByYear : devuelve los datos de todos los elementos del array que hayan sido lanzados en un año en concreto.
+4. searchByCadena : devuelve los datos de todos los elementos del array que sean de una cadena televisiva en concreto.
+
+- Películas
+
+Para películas se declarará la interfaz : 
+
+```typescript
+
+type peliculasDatos = {
+    year:number;
+    descriptor:string;
+    titulo:string;
+    director:string;
+    actores:string[];
+}
+
+```
+
+Entonces, la clase Películas será la siguiente, usando como tipo `peliculasDatos`:
+
+```typescript
+
+class Peliculas extends BasicStreamableCollection<peliculasDatos> {
+  constructor(protected items:peliculasDatos[]) {
+    super(items);
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un descriptor
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByDescriptor(terminoBusqueda: string): peliculasDatos[] | undefined {
+    let arrayFinal:peliculasDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.descriptor == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un nombre
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByName(terminoBusqueda: string): peliculasDatos[] | undefined {
+    let arrayFinal:peliculasDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.titulo == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un año
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByYear(terminoBusqueda: number): peliculasDatos[] | undefined {
+    let arrayFinal:peliculasDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.year == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todas las películas donde participen
+   * uno o más actores
+   * @param terminoBusqueda
+   * @returns array
+   */
+  public searchByActores(terminoBusqueda:string[]):peliculasDatos[] | undefined {
+    const arrayFinal:peliculasDatos[] = [];
+    for (let i = 0; i < this.items.length; i++) {
+      const found = this.items[i].actores.some((r)=> terminoBusqueda.includes(r));
+      if (found) {
+        arrayFinal.push(this.items[i]);
+      }
+    }
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todas las películas dirigidas por un director
+   * en concreto
+   * @param terminoBusqueda
+   * @returns array
+   */
+  public searchByDirector(terminoBusqueda:string): peliculasDatos[] | undefined {
+    let arrayFinal:peliculasDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.director == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+}
+
+```
+
+Al constructor se le pasa como parámetro un array items del tipo `peliculasDatos`. Seguidamente, método a método: 
+
+1. searchByDescriptor : Método que devuelve los datos de todas las películas que coincidan con un descriptor.
+2. searchByName : Método que devuelve los datos de todas las películas que coinciden con un nombre.
+3. searchByYear : Método que devuelve todos los datos de las películas que coincidan con un año de lanzamiento en concreto.
+4. searchByActores : Método que recibe un array con nombres de actores y devuelve todas las películas donde participe uno o más de ellos.
+5. searchByDirector : Método que devuelve todas las películas que coincidan por ser dirigidas por un director en concreto.
+
+- Series
+
+Para series se declarará la interfaz :
+
+```typescript
+
+type SeriesDatos = {
+    year:number;
+    descriptor:string;
+    titulo:string;
+    temporadas:number;
+    director:string;
+}
+
+```
+
+Entonces, la clase Serie sería la siguiente, usando como tpo `serieDatos`:
+
+```typescript
+
+class Series extends BasicStreamableCollection<SeriesDatos> {
+  constructor(protected items:SeriesDatos[]) {
+    super(items);
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un descriptor
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByDescriptor(terminoBusqueda: string): SeriesDatos[] | undefined {
+    let arrayFinal:SeriesDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.descriptor == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un nombre
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByName(terminoBusqueda: string): SeriesDatos[] | undefined {
+    let arrayFinal:SeriesDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.titulo == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todos los elementos que coincidan
+   * con un año
+   * @param terminoBusqueda
+   * @returns array
+   */
+  searchByYear(terminoBusqueda: number): SeriesDatos[] | undefined {
+    let arrayFinal:SeriesDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.year == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todas las series con un número
+   * de temporadas concreto
+   * @param terminoBusqueda
+   * @returns array
+   */
+  public searchByTemporadas(terminoBusqueda:number): SeriesDatos[] | undefined {
+    let arrayFinal:SeriesDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.temporadas == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+  /**
+   * Método que devuelve los datos de todas las series dirigidas por un director
+   * en concreto
+   * @param terminoBusqueda
+   * @returns array
+   */
+  public searchByDirector(terminoBusqueda:string): SeriesDatos[] | undefined {
+    let arrayFinal:SeriesDatos[] = [];
+    arrayFinal = this.items.filter((obj) => {
+      return obj.director == terminoBusqueda;
+    });
+    if (arrayFinal.length == 0) {
+      return undefined;
+    } else {
+      return arrayFinal;
+    }
+  }
+}
+
+```
+
+Al constructor se le pasa como parámetro un array items del tipo `seriesDatos`. Seguidamente, método a método:
+
+1. searchByDescriptor : Método que devuelve los datos de todas las series que coincidan con un descriptor.
+2. searchByName : Método que devuelve los datos de todas las series que coincidan con un nombre en concreto.
+3. searchByYear : Método que devuelve los datos de todas las series que coincidan con un año en concreto como estreno.
+4. searchByTemporadas : Método que devuelve los datos de todas las series que coincidan con un número de temporadas en concreto.
+5. searchByDirector : Método que devuelve los datos de todas ls series qeu coincidan con un director. 
