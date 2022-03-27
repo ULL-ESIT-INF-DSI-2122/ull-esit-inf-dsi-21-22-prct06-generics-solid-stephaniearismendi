@@ -56,6 +56,12 @@ describe('Combat Tests: ', () => {
   it('start => not throw an error', () =>{
     expect(combate.start).to.not.throw;
   });
+  it('start => to exist', () =>{
+    expect(combate.start).to.exist;
+  });
+  it('start sin vida=> not throw an error', () =>{
+    expect(combateSinVida.start).to.not.throw;
+  });
   it('comprobarRendicion(Scarlet Witch) => Scarlet Witch se ha rendido', ()=>{
     expect(combateSinVida.comprobarRendicion(ScarletWitch)).to.be.equal('Scarlet Witch se ha rendido.');
   });
