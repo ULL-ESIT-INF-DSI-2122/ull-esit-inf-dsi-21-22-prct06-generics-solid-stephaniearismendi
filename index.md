@@ -1174,6 +1174,24 @@ Método que desplaza un caracter pasado como parametro según el desplazamiento,
 
 Método final, que devuelve el string de texto completamente desplazado haciendo uso de las funciones anteriores.
 
+- descipher
+
+```typescript
+
+  public descipher():string {
+    let stringFinal:string = '';
+    this.checkLongClave();
+    for (let i = 0; i < this.texto.length; i++) {
+      const displacement = this.checkDisplacement(this.clave[i]);
+      stringFinal += this.displacementCharacter(this.texto[i], -displacement);
+    }
+    return stringFinal;
+  }
+
+```
+
+Método que devuelve un string con el mensaje descifrado haciendo uso de los métodos anteriores.
+
 Finalmente, se han llevado a cabo una serie de pruebas, que pueden encontrarse [aquí](https://github.com/ULL-ESIT-INF-DSI-2122/ull-esit-inf-dsi-21-22-prct06-generics-solid-stephaniearismendi/tree/main/test).
 
 La salida por pantalla es la siguiente:

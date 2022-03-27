@@ -63,6 +63,9 @@ export class Cifrado {
     if (indexDesplazado >= this.alphabet.length) {
       indexDesplazado = indexDesplazado - this.alphabet.length;
       desplazado = this.alphabet[indexDesplazado];
+    } else if (indexDesplazado < 0) {
+      indexDesplazado = indexDesplazado + this.alphabet.length;
+      desplazado = this.alphabet[indexDesplazado];
     } else {
       desplazado = this.alphabet[indiceOriginal + displacement];
     }
@@ -79,6 +82,15 @@ export class Cifrado {
     for (let i = 0; i < this.texto.length; i++) {
       const displacement = this.checkDisplacement(this.clave[i]);
       stringFinal += this.displacementCharacter(this.texto[i], displacement);
+    }
+    return stringFinal;
+  }
+  public descipher():string {
+    let stringFinal:string = '';
+    this.checkLongClave();
+    for (let i = 0; i < this.texto.length; i++) {
+      const displacement = this.checkDisplacement(this.clave[i]);
+      stringFinal += this.displacementCharacter(this.texto[i], -displacement);
     }
     return stringFinal;
   }
