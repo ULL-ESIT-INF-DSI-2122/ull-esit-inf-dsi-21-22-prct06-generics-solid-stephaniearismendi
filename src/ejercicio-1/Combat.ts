@@ -76,7 +76,7 @@ export class Combat {
    * no le quede ni una gota de fuerza. Tiene en cuenta los boost de los diferentes universos y controla
    * que solo se usen una vez.
    */
-  public start():void {
+  public start() {
     let iter:number = 1;
     let bonusoponente1:boolean = true;
     let bonusoponente2:boolean = true;
